@@ -1,6 +1,6 @@
 {
   "version": "0.5.9",
-  "name": "circular-json",
+  "name": "macaca-circular-json",
   "description": "JSON does not handle circular references. This version does",
   "license": "MIT",
   "homepage": "https://github.com/WebReflection/circular-json",
