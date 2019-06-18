@@ -59,7 +59,7 @@ function generateReplacer(value, replacer, resolve) {
   if (inspect) {
     fn = typeof replacer === 'object' ?
       function (key, value) {
-        return key !== '' && replacer.indexOf(key) < 0 ? void 0 : value;
+        return key !== '' && indexOf.call(replacer, key) < 0 ? void 0 : value;
       } :
       replacer;
   }
@@ -79,9 +79,14 @@ function generateReplacer(value, replacer, resolve) {
         path.splice(lvl - 1, path.length);
         last = this;
       }
+      // If you do not handle the Promise, it will cause memory overflow.
+      // 'UnhandledPromiseRejectionWarning: '
+      // 'RangeError: Maximum call stack size exceeded'
+      if (Object.prototype.toString.call(value) === '[object Promise]') {
+        return '[object Promise]';
       // console.log(lvl, key, path);
-      if (typeof value === 'object' && value) {
-    	// if object isn't referring to parent object, add to the
+      } else if (typeof value === 'object' && value) {
+        // if object isn't referring to parent object, add to the
         // object path stack. Otherwise it is already there.
         if (indexOf.call(all, value) < 0) {
           all.push(last = value);
